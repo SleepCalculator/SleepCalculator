@@ -93,9 +93,11 @@
             // 
             // dateTimePicker2
             // 
+            this.dateTimePicker2.Cursor = System.Windows.Forms.Cursors.Default;
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker2.Location = new System.Drawing.Point(590, 178);
             this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePicker2.Size = new System.Drawing.Size(167, 20);
             this.dateTimePicker2.TabIndex = 8;
             // 
