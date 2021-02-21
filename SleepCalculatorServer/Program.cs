@@ -17,6 +17,7 @@ namespace SleepCalculatorServer
 				{
 					server.Bind(new IPEndPoint(IPAddress.Any, 8888));
 					server.Listen(10);
+                    Console.WriteLine("Server started.");
 					while (true)
 						try
 						{
@@ -47,14 +48,19 @@ namespace SleepCalculatorServer
 										handler.Send(data);
 									}
 								}
+								Console.WriteLine(handler.LocalEndPoint.ToString() + " was handled.");
 							}
 						}
-						catch { }
+						catch (Exception ex)
+						{
+							Console.WriteLine(ex.Message);
+						}
 				}
 			}
 			catch (Exception ex)
 			{
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Server stopped.");
 			}
 		}
     }
