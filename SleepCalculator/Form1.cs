@@ -18,11 +18,10 @@ namespace SleepCalculator
         {
             try
             {
-
-            string time = textBox1.Text;
-            int hours = int.Parse(time.Substring(0, 2));
-            int minuts = int.Parse(time.Substring(3, 2));
-                if (time[2] != ':' || hours < 0 || hours > 23 || minuts > 59 || minuts < 0) throw new FormatException();
+                int hours = int.Parse(textBox1.Text.Substring(0, 2));
+                int minuts = int.Parse(textBox1.Text.Substring(3, 2));
+                if (textBox1.Text[2] != ':' || hours < 0 || hours > 23 || minuts > 59 || minuts < 0)
+                    throw new FormatException();
             }
             catch(Exception ex)
             {
@@ -30,7 +29,7 @@ namespace SleepCalculator
                 return;
             }
 
-            XElement message = new XElement("Calculate", new XAttribute(sender == button1 ? "GoToBed" : "WakeUp", sender == button1 ? dateTimePicker1.Value.ToString() : dateTimePicker2.Value.ToString()), new XAttribute("Hours", textBox1.Text));
+            XElement message = new XElement("Calculate", new XAttribute(sender == button1 ? "GoToBed" : "WakeUp", sender == button1 ? dateTimePicker1.Value.ToString() : dateTimePicker2.Value.ToString()), new XAttribute("Sleep", textBox1.Text));
             using (Socket handler = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 handler.Connect(new IPEndPoint(IPAddress.Loopback, 8888));
