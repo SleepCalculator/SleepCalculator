@@ -16,20 +16,22 @@ namespace SleepCalculator
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            int totalMinutes;
             try
             {
                 int hours = int.Parse(textBox1.Text.Substring(0, 2));
-                int minuts = int.Parse(textBox1.Text.Substring(3, 2));
-                if (textBox1.Text[2] != ':' || hours < 0 || hours > 23 || minuts > 59 || minuts < 0)
+                int minutes = int.Parse(textBox1.Text.Substring(3, 2));
+                if (textBox1.Text.Length != 5 || textBox1.Text[2] != ':' || hours < 0 || hours > 23 || minutes > 59 || minutes < 0)
                     throw new FormatException();
+                totalMinutes = (int)new TimeSpan(hours, minutes, 0).TotalMinutes;
             }
-            catch(Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Use format \"hh:mm\"");
                 return;
             }
 
-            XElement message = new XElement("Calculate", new XAttribute(sender == button1 ? "GoToBed" : "WakeUp", sender == button1 ? dateTimePicker1.Value.ToString() : dateTimePicker2.Value.ToString()), new XAttribute("Sleep", textBox1.Text));
+            XElement message = new XElement("Calculate", new XAttribute(sender == button1 ? "GoToBed" : "WakeUp", (sender == button1 ? dateTimePicker1.Value : dateTimePicker2.Value).ToString()), new XAttribute("SleepMinutes", totalMinutes));
             using (Socket handler = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 handler.Connect(new IPEndPoint(IPAddress.Loopback, 8888));
